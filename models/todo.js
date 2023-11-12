@@ -14,13 +14,42 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Todo.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     title: DataTypes.STRING,
     description: DataTypes.TEXT,
     userId: DataTypes.INTEGER,
-    completed: DataTypes.BOOLEAN
+    completed: DataTypes.BOOLEAN,
+    
+
   }, {
     sequelize,
     modelName: 'Todo',
+    // timestamps: false,
+
   });
+
+
+  
+// Todo.init(
+//   {
+//     todolist_id: {
+//       type: DataTypes.INTEGER,
+//       primaryKey: true,
+//       autoIncrement: true,
+//     },
+//     title: DataTypes.STRING,
+//     description: DataTypes.TEXT,
+//     completed: DataTypes.BOOLEAN
+//   },
+//   {
+//     sequelize,
+//     modelName: 'Todo',
+//     timestamps: false,
+//   });
+
   return Todo;
 };
