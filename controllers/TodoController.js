@@ -34,10 +34,66 @@ const getAllTodos = async (req, res) => {
   }
 };
 
-// Implement other CRUD operations as needed
 
+const getTodoById = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const todo = await Todo.findByPk(id);
+      if (!todo) {
+        return res.status(404).json({ error: 'Todo not found' });
+      }
+      return res.status(200).json({ todo });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  
+  const updateTodo = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { title, description, userId } = req.body;
+      const todo = await Todo.findByPk(id);
+      if (!todo) {
+        return res.status(404).json({ error: 'Todo not found' });
+      }
+      await todo.update({ title, description, userId });
+      return res.status(200).json({ todo });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  
+  const deleteTodo = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const todo = await Todo.findByPk(id);
+      if (!todo) {
+        return res.status(404).json({ error: 'Todo not found' });
+      }
+      await todo.destroy();
+      return res.status(204).send(); // No content on successful deletion
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  
+  const deleteAllTodos = async (req, res) => {
+    try {
+      await Todo.destroy({ where: {} });
+      return res.status(204).send(); // No content on successful deletion
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
 module.exports = {
-  createTodo,
+    createTodo,
   getAllTodos,
-  // Implement other methods here
+  getTodoById,
+  updateTodo,
+  deleteTodo,
+  deleteAllTodos,
 };
